@@ -234,9 +234,9 @@ if(builtin_llvm)
     ${CMAKE_BINARY_DIR}/interpreter/llvm-project/llvm/include
     CACHE STRING "LLVM include directories."
     )
-  #---Set into parent scope LLVM_VERSION --------------------------------------------------------------
-  get_directory_property(_llvm_version DIRECTORY llvm-project/llvm DEFINITION LLVM_VERSION)
-  set(LLVM_VERSION "${_llvm_version}" PARENT_SCOPE)
+  #---Set into parent scope LLVM_VERSION_MAJOR --------------------------------------------------------
+  get_directory_property(_llvm_version_major DIRECTORY llvm-project/llvm DEFINITION LLVM_VERSION_MAJOR)
+  set(LLVM_VERSION_MAJOR "${_llvm_version_major}" PARENT_SCOPE)
 else()
   # Rely on llvm-config.
   set(CONFIG_OUTPUT)
@@ -279,9 +279,7 @@ else()
   list(GET CONFIG_OUTPUT 5 MAIN_SRC_DIR)
   list(GET CONFIG_OUTPUT 6 LLVM_CONFIG_CMAKE_PATH)
   list(GET CONFIG_OUTPUT 7 LLVM_BUILD_MODE)
-  list(GET CONFIG_OUTPUT 8 LLVM_VERSION_S)
-
-  set(LLVM_VERSION_SAVE "${LLVM_VERSION_S}")
+  list(GET CONFIG_OUTPUT 8 LLVM_VERSION)
 
   message(STATUS "External llvm built in ${LLVM_BUILD_MODE} mode.")
 
@@ -428,14 +426,11 @@ Please install Python or specify the PYTHON_EXECUTABLE CMake variable.")
   set(LLVM_INCLUDE_DIRS ${LLVM_MAIN_INCLUDE_DIR}
     CACHE STRING "System LLVM include directories."
     )
-  # We cannot include LLVMConfig.cmake here. We reply on builtin clang to discover the available
-  # llvm version and set it in clang version.
-  # FIXME: This is a very ugly workaround. Is there a better way to do this?
-  if ($CLANG_VERSION)
-    set(LLVM_VERSION ${CLANG_VERSION} PARENT_SCOPE)
-  else()
-    set(LLVM_VERSION ${LLVM_VERSION_SAVE} PARENT_SCOPE)
-  endif()
+
+  # We checked above that LLVM_VERSION is what we require in ROOT_LLVM_VERSION_REQUIRED_MAJOR.
+  # To simplify code, just forward that requirement to the rest of ROOT, for example to
+  # construct the resource directory in core/clingutils.
+  set(LLVM_VERSION_MAJOR ${ROOT_LLVM_VERSION_REQUIRED_MAJOR} PARENT_SCOPE)
 
   # We are in the case of NOT builtin_llvm
   if (builtin_clang)
