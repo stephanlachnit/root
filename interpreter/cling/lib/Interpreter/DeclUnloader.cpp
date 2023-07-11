@@ -889,7 +889,7 @@ bool DeclUnloader::VisitRedeclarable(clang::Redeclarable<T>* R, DeclContext* DC)
         }
       }
       // DeferredDecls exist even without Module.
-      m_CodeGen->forgetDecl(GD, mangledName);
+      m_CodeGen->forgetDecl(mangledName);
     }
   }
 
