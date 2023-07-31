@@ -3837,10 +3837,10 @@ static llvm::cl::list<std::string>
 gOptPPUndefines("U", llvm::cl::Prefix, llvm::cl::ZeroOrMore,
              llvm::cl::desc("Specify undefined macros."),
              llvm::cl::cat(gRootclingOptions));
-static llvm::cl::list<std::string>
-gOptWDiags("W", llvm::cl::Prefix, llvm::cl::ZeroOrMore,
-          llvm::cl::desc("Specify compiler diagnostics options."),
-          llvm::cl::cat(gRootclingOptions));
+//static llvm::cl::list<std::string>
+//gOptWDiags("W", llvm::cl::Prefix, llvm::cl::ZeroOrMore,
+//          llvm::cl::desc("Specify compiler diagnostics options."),
+//          llvm::cl::cat(gRootclingOptions));
 // Really OneOrMore, will be changed in RootClingMain below.
 static llvm::cl::list<std::string>
 gOptDictionaryHeaderFiles(llvm::cl::Positional, llvm::cl::ZeroOrMore,
@@ -4197,13 +4197,13 @@ int RootClingMain(int argc,
       }
    }
 
-   for (const std::string &WDiag : gOptWDiags) {
+   /*for (const std::string &WDiag : gOptWDiags) {
       const std::string FullWDiag = std::string("-W") + WDiag;
       // Suppress warning when compiling the dictionary, eg. gcc G__xxx.cxx
       CheckForMinusW(FullWDiag, diagnosticPragmas);
       // Suppress warning when compiling the input headers by cling.
       clingArgs.push_back(FullWDiag);
-   }
+   }*/
 
    std::string includeDir = llvm::sys::path::convert_to_slash(gDriverConfig->fTROOT__GetIncludeDir());
    clingArgs.push_back(std::string("-I") + includeDir);
