@@ -3840,7 +3840,7 @@ When -r is present rootcling becomes a tool to generate rootmaps (and capability
       llvm::cl::cat(gRootclingOptions));
 
    llvm::cl::opt<std::string> gOptDictionaryFileName(
-      llvm::cl::Required,
+      llvm::cl::Positional, llvm::cl::Required,
       llvm::cl::desc("<output dictionary file>"),
       llvm::cl::cat(gRootclingOptions));
 
