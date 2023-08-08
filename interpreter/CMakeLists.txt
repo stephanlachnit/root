@@ -337,7 +337,7 @@ else()
   include(HandleLLVMOptions)
   include(VersionFromVCS)
 
-  set(PACKAGE_VERSION "${LLVM_PACKAGE_VERSION}")
+  set(PACKAGE_VERSION "${LLVM_VERSION}")
   if (${PACKAGE_VERSION} MATCHES "${ROOT_LLVM_VERSION_REQUIRED_MAJOR}\\.0(|\\.[0-9]+)")
     message(STATUS "Using LLVM external library - ${PACKAGE_VERSION}")
   else()
@@ -442,7 +442,7 @@ Please install Python or specify the PYTHON_EXECUTABLE CMake variable.")
   endif(builtin_clang)
 
   set( CLANG_BUILT_STANDALONE 1 )
-  set(BACKEND_PACKAGE_STRING "LLVM ${LLVM_PACKAGE_VERSION}")
+  set(BACKEND_PACKAGE_STRING "LLVM ${LLVM_VERSION}")
 endif(builtin_llvm)
 
 if (builtin_clang)
@@ -498,6 +498,7 @@ if (builtin_cling)
     string(APPEND CMAKE_C_FLAGS " -fPIC")
   endif(LLVM_ENABLE_PIC AND NOT MSVC)
   # Avoid cling being installed under ROOTSYS/include.
+  set(CLING_ROOT_BUILD ON)
   add_subdirectory(cling EXCLUDE_FROM_ALL)
   add_dependencies(CLING ${CLING_LIBRARIES})
 
